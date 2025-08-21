@@ -16,8 +16,13 @@ const panel = document.querySelector('#panel')
 const colorSelect = document.querySelector('#color-select')
 
 
+const buzzSound = new Audio('/audio/buzzer.mp3')
+
+
 socket.on('buzz', (color) => {
     message.innerText = `Team ${color} buzzed in!`
+    buzzSound.volume = .05
+    buzzSound.play()
     toggleBuzzLock()
 })
 
