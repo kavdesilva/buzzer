@@ -12,6 +12,7 @@ const teams = []
 
 const button = document.querySelector('.buzzer-btn')
 const message = document.querySelector('#message')
+const selectMessage = document.querySelector('#select-message')
 const panel = document.querySelector('#panel')
 const colorSelect = document.querySelector('#color-select')
 
@@ -20,7 +21,7 @@ const buzzSound = new Audio('/audio/buzzer.mp3')
 
 
 socket.on('buzz', (color) => {
-    message.innerText = `Team ${color} buzzed in!`
+    message.innerHTML = `Team <span style="color: ${color.value}">${color.name.toUpperCase()}</span> buzzed in!`
     buzzSound.volume = .05
     buzzSound.play()
     toggleBuzzLock()
@@ -83,11 +84,12 @@ const selectTeamColor = (color) => {
     button.style.backgroundColor = selectedColor.value
     socket.emit('register', selectedColor.name)
     message.innerText = 'Click the button to buzz in!'
+    selectMessage.innerText = ''
     document.querySelectorAll('.color-option').forEach(div => div.classList.add('disabled'))
 }
 
 const buzzIn = () => {
-    socket.emit('buzz', selectedColor.name)
+    socket.emit('buzz', selectedColor)
 }
 
 const toggleBuzzLock = () => {
@@ -99,8 +101,7 @@ const toggleBuzzLock = () => {
             buttonLocked = false
             button.disabled = false
             button.style.opacity = '1'
-            message.innerText = 'Click the button to buzz in!'
-        }, 3000)
+        }, 5000)
     }
 }
 
