@@ -6,7 +6,9 @@ const path = require('path');
 
 const app = express();
 const server = http.createServer(app)
-const io = new Server(server)
+const io = new Server(server, {
+  connectionStateRecovery: {}
+});
 
 const takenColors = new Set()
 const activePlayers = new Map() // color -> socket.id
@@ -40,9 +42,9 @@ io.on('connection', (socket) => {
     io.emit('buzz', color)
   })
 
-  socket.on('lock', (message) => {
-    console.log(message)
-  })
+  // socket.on('lock', (message) => {
+  //   console.log(message)
+  // })
   
   socket.on('disconnect', () => {
     if (socket.data.selectedColor) {

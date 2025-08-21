@@ -19,6 +19,11 @@ const colorSelect = document.querySelector('#color-select')
 
 const buzzSound = new Audio('/audio/buzzer.mp3')
 
+socket.on('disconnect', () => {
+    setTimeout(() => {
+        window.location.reload()
+    }, 500)
+})
 
 socket.on('buzz', (color) => {
     message.innerHTML = `Team <span style="color: ${color.value}">${color.name.toUpperCase()}</span> buzzed in!`
@@ -106,3 +111,4 @@ const toggleBuzzLock = () => {
 }
 
 init()
+// test connection reload: socket.disconnect()
